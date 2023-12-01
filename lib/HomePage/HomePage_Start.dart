@@ -203,6 +203,7 @@ class _HomePage_startState extends State<HomePage_start> {
                                   STD[itemIndex],
                                   style: const TextStyle(
                                     fontSize: 16,
+                                    fontFamily: medium,
                                     color: textFieldColor,
                                     fontWeight: FontWeight.w800,
                                   ),
