@@ -1,8 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:staff_support_system_flutter/HomePage/HomePage.dart';
-
+import 'package:staff_support_system_flutter/constants/colors.dart';
+import 'package:staff_support_system_flutter/constants/fontstyle.dart';
 
 class HomePage_start extends StatefulWidget {
   const HomePage_start({super.key});
@@ -41,16 +40,65 @@ class _HomePage_startState extends State<HomePage_start> {
       matchingItemIndexes.add(i);
     }
     return Scaffold(
-      backgroundColor: Colors.grey[250],
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const Text(
+          'Home',
+          style: TextStyle(fontFamily: bold),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              selected: _selectedIndex == 0,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(0);
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Business'),
+              selected: _selectedIndex == 1,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(1);
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('School'),
+              selected: _selectedIndex == 2,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(2);
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+
       bottomNavigationBar: Theme(
         data: ThemeData(
-          canvasColor: const Color(0xFF053498),
+          canvasColor: primayColor,
         ),
         child: BottomNavigationBar(
-          selectedItemColor: const Color(0xFF5FB2FF)
-,
-          unselectedItemColor:
-              const Color.fromARGB(255, 255, 255, 255).withOpacity(0.8),
+          selectedItemColor: textWhiteColor,
+         unselectedItemColor: lightWhiteColor,
           currentIndex: _selectedIndex,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -77,31 +125,23 @@ class _HomePage_startState extends State<HomePage_start> {
           },
         ),
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration:
-                const BoxDecoration(color:  Color(0xFF053498)
-),
-            child: const SizedBox(
-              height: 250,
-              width: 600,
-              child: Card(
-                elevation: 10,
-                color:  Color(0xFF053498),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+           const Padding(
+              padding:  EdgeInsets.all(8.0),
+              child:  Card(
+                elevation: 0.5,
+                color: primayColor,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 30.0),
+                  padding: EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading: Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                      size: 35,
-                    ),
                     title: Text(
                       'Teacher Name',
                       style: TextStyle(
                         fontSize: 22,
-                        color: Colors.white,
+                        color: textWhiteColor,
+                        fontFamily: medium,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -109,87 +149,82 @@ class _HomePage_startState extends State<HomePage_start> {
                       'Designation',
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.white,
-                        fontStyle: FontStyle.italic,
+                        color: textWhiteColor,
+                        fontFamily: regular,
                       ),
                     ),
                     trailing: CircleAvatar(
                       radius: 35,
-                      backgroundImage: NetworkImage(""),
+                      backgroundColor: textWhiteColor,
+                      child: Icon(Icons.person, size: 35),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(100, 150, 0, 120),
-            child: Text(
-              "Explore Exisiting Classes!",
-              style: TextStyle(
-                fontSize: 22,
-                color: Colors.white.withOpacity(0.9),
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 210, 10, 0),
-            child: Container(
-              // height: 570,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                //border: Border.all(width: 1.5),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 10.0,
-                ),
-                itemCount: matchingItemIndexes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  int itemIndex = matchingItemIndexes[index];
-                  String selectedSTD = STD[itemIndex];
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigate to the next page
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                      );
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Card(
-                          elevation: 5,
-                          color: Colors.blue[50],
-                          child: SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Center(
-                              child: Text(
-                                STD[itemIndex],
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xF30A3590),
-                                  fontWeight: FontWeight.w800,
+
+            Container(
+              height: 570,
+             decoration:const BoxDecoration(color: textWhiteColor),
+             padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Card(
+                elevation: 0.5,
+                color: textWhiteColor,
+                child: GridView.builder(
+                  physics:const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 10.0,
+                  ),
+                  itemCount: matchingItemIndexes.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    int itemIndex = matchingItemIndexes[index];
+                    String selectedSTD = STD[itemIndex];
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to the next page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                        );
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Card(
+                            elevation: 0.5,
+                            color: textWhiteColor,
+                            child: SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: Center(
+                                child: Text(
+                                  STD[itemIndex],
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: textFieldColor,
+                                    fontWeight: FontWeight.w800,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+        
+          ],
+        ),
       ),
     );
   }
 }
+/*
+*
+*
+*   */
