@@ -3,14 +3,14 @@ import 'package:staff_support_system_flutter/HomePage/HomePage.dart';
 import 'package:staff_support_system_flutter/constants/colors.dart';
 import 'package:staff_support_system_flutter/constants/fontstyle.dart';
 
-class HomePage_start extends StatefulWidget {
-  const HomePage_start({super.key});
+class HomePagestart extends StatefulWidget {
+  const HomePagestart({super.key});
 
   @override
-  State<HomePage_start> createState() => _HomePage_startState();
+  State<HomePagestart> createState() => _HomePagestartState();
 }
 
-class _HomePage_startState extends State<HomePage_start> {
+class _HomePagestartState extends State<HomePagestart> {
   final List<String> STD = [
     'STD-1',
     'STD-2',
@@ -48,13 +48,14 @@ class _HomePage_startState extends State<HomePage_start> {
         ),
       ),
       drawer: Drawer(
+
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: primayColor,
               ),
               child: Text('Drawer Header'),
             ),
@@ -204,7 +205,7 @@ class _HomePage_startState extends State<HomePage_start> {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontFamily: medium,
-                                    color: textFieldColor,
+                                    color: textColor,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
