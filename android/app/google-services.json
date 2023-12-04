@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "317922237580",
+    "project_id": "staff-support-system-2391d",
+    "storage_bucket": "staff-support-system-2391d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317922237580:android:9ce925e472e574f9286fa9",
+        "android_client_info": {
+          "package_name": "com.example.staff_support_system_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnz2As0I0Y5v0nh9818yCzBWTtj2LaZyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
