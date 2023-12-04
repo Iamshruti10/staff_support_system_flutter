@@ -1,10 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:staff_support_system_flutter/HomePage/HomePage_Start.dart';
 import 'package:staff_support_system_flutter/auth_screen/login_screen/login_screen.dart';
-import 'package:staff_support_system_flutter/auth_screen/sign_up_screen/sign_up_screen.dart';
 
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-      
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -26,8 +25,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

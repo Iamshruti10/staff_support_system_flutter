@@ -8,6 +8,8 @@ Widget commonTextFormField(
     controller,
     obscureText = false,
     hintText,
+    keyboardType,
+    String? Function(String?)? validator,
     suffixIcon}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,6 +28,8 @@ Widget commonTextFormField(
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextFormField(
+          validator: validator,
+          keyboardType: keyboardType,
           cursorColor: Colors.black,
           controller: controller,
           obscureText: obscureText,
@@ -33,7 +37,7 @@ Widget commonTextFormField(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: const BorderSide(
-                color: ligthGreyColor,
+                color: lightGreyColor,
               ),
             ),
             suffixIcon: suffixIcon,
@@ -47,12 +51,26 @@ Widget commonTextFormField(
             isDense: true,
             fillColor: Colors.white,
             filled: true,
-            focusedBorder:OutlineInputBorder(
+            focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: const BorderSide(
-                color: ligthGreyColor,
+                color: lightGreyColor,
               ),
             ),
+             errorStyle: TextStyle(overflow: TextOverflow.ellipsis),
+              errorBorder:OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: const BorderSide(
+                  width: 1,
+                  color: redColor,
+                )),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: const BorderSide(
+                  width: 1,
+                  color: redColor,
+                )),
+            enabled: true,
             border: InputBorder.none,
           ),
         ),

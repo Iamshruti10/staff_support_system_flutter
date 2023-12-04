@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:staff_support_system_flutter/HomePage/HomePage.dart';
+import 'package:staff_support_system_flutter/auth_screen/login_screen/login_screen.dart';
+import 'package:staff_support_system_flutter/common_widgets/commonloadingIndicator.dart';
+import 'package:staff_support_system_flutter/common_widgets/utils.dart';
 import 'package:staff_support_system_flutter/constants/colors.dart';
 import 'package:staff_support_system_flutter/constants/fontstyle.dart';
+import 'package:staff_support_system_flutter/firebase_auth/firebaseauthhelper.dart';
 
 class HomePagestart extends StatefulWidget {
   const HomePagestart({super.key});
@@ -32,6 +37,7 @@ class _HomePagestartState extends State<HomePagestart> {
     });
   }
 
+  var isLoading = false;
   @override
   Widget build(BuildContext context) {
     List<int> matchingItemIndexes = [];
@@ -48,7 +54,6 @@ class _HomePagestartState extends State<HomePagestart> {
         ),
       ),
       drawer: Drawer(
-
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
@@ -57,10 +62,41 @@ class _HomePagestartState extends State<HomePagestart> {
               decoration: BoxDecoration(
                 color: primayColor,
               ),
-              child: Text('Drawer Header'),
+              child: ListTile(
+                title: Text(
+                  'Teacher Name',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: textWhiteColor,
+                    fontFamily: medium,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  maxLines: 2,
+                ),
+                subtitle: Text(
+                  'Designation',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: textWhiteColor,
+                    fontFamily: regular,
+                  ),
+                ),
+                trailing: CircleAvatar(
+                  radius: 35,
+                  backgroundColor: textWhiteColor,
+                  child: Icon(Icons.person, size: 35),
+                ),
+              ),
             ),
             ListTile(
-              title: const Text('Home'),
+              title: const Text(
+                'Home',
+                style: TextStyle(
+                    fontFamily: medium,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: textColor),
+              ),
               selected: _selectedIndex == 0,
               onTap: () {
                 // Update the state of the app
@@ -70,7 +106,14 @@ class _HomePagestartState extends State<HomePagestart> {
               },
             ),
             ListTile(
-              title: const Text('Business'),
+              title: const Text(
+                'Business',
+                style: TextStyle(
+                    fontFamily: medium,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: textColor),
+              ),
               selected: _selectedIndex == 1,
               onTap: () {
                 // Update the state of the app
@@ -80,7 +123,14 @@ class _HomePagestartState extends State<HomePagestart> {
               },
             ),
             ListTile(
-              title: const Text('School'),
+              title: const Text(
+                'School',
+                style: TextStyle(
+                    fontFamily: medium,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: textColor),
+              ),
               selected: _selectedIndex == 2,
               onTap: () {
                 // Update the state of the app
@@ -89,17 +139,43 @@ class _HomePagestartState extends State<HomePagestart> {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text(
+                'Log Out',
+                style: TextStyle(
+                    fontFamily: medium,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: textColor),
+              ),
+              selected: _selectedIndex == 0,
+              onTap: () {
+                // Update the state of the app
+                setState(() {
+                  isLoading = true;
+                });
+                FirebaseAuthHelper.firebaseAuthHelper.signOut();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                showMessage(
+                    context: context,
+                    message: 'Log out Successfully',
+                    bgcolor: greenColor);
+                setState(() {
+                  isLoading = false;
+                });
+              },
+            ),
           ],
         ),
       ),
-
       bottomNavigationBar: Theme(
         data: ThemeData(
           canvasColor: primayColor,
         ),
         child: BottomNavigationBar(
           selectedItemColor: textWhiteColor,
-         unselectedItemColor: lightWhiteColor,
+          unselectedItemColor: lightWhiteColor,
           currentIndex: _selectedIndex,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -126,103 +202,104 @@ class _HomePagestartState extends State<HomePagestart> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-           const Padding(
-              padding:  EdgeInsets.all(8.0),
-              child:  Card(
-                elevation: 0.5,
-                color: primayColor,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text(
-                      'Teacher Name',
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: textWhiteColor,
-                        fontFamily: medium,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Designation',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: textWhiteColor,
-                        fontFamily: regular,
-                      ),
-                    ),
-                    trailing: CircleAvatar(
-                      radius: 35,
-                      backgroundColor: textWhiteColor,
-                      child: Icon(Icons.person, size: 35),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            Container(
-              height: 570,
-             decoration:const BoxDecoration(color: textWhiteColor),
-             padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Card(
-                elevation: 0.5,
-                color: textWhiteColor,
-                child: GridView.builder(
-                  physics:const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 10.0,
-                  ),
-                  itemCount: matchingItemIndexes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    int itemIndex = matchingItemIndexes[index];
-                    String selectedSTD = STD[itemIndex];
-                    return GestureDetector(
-                      onTap: () {
-                        // Navigate to the next page
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()),
-                        );
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Card(
-                            elevation: 0.5,
-                            color: textWhiteColor,
-                            child: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Center(
-                                child: Text(
-                                  STD[itemIndex],
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: medium,
-                                    color: textColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ),
+      body:  SingleChildScrollView(
+              child: isLoading
+                  ? loadingIndicator()
+                  : Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 0.5,
+                      color: primayColor,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text(
+                            'Teacher Name',
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: textWhiteColor,
+                              fontFamily: medium,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
-                        ],
+                          subtitle: Text(
+                            'Designation',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: textWhiteColor,
+                              fontFamily: regular,
+                            ),
+                          ),
+                          trailing: CircleAvatar(
+                            radius: 35,
+                            backgroundColor: textWhiteColor,
+                            child: Icon(Icons.person, size: 35),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                  Container(
+                    height: 570,
+                    decoration: const BoxDecoration(color: textWhiteColor),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Card(
+                      elevation: 0.5,
+                      color: textWhiteColor,
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 10.0,
+                        ),
+                        itemCount: matchingItemIndexes.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          int itemIndex = matchingItemIndexes[index];
+                          String selectedSTD = STD[itemIndex];
+                          return GestureDetector(
+                            onTap: () {
+                              // Navigate to the next page
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()),
+                              );
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Card(
+                                  elevation: 0.5,
+                                  color: textWhiteColor,
+                                  child: SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                      child: Text(
+                                        STD[itemIndex],
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: medium,
+                                          color: textColor,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-        
-          ],
-        ),
-      ),
     );
   }
 }
